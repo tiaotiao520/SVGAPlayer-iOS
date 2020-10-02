@@ -212,6 +212,13 @@ static NSOperationQueue *unzipQueue;
         return;
     }
     if (!data || data.length < 4) {
+        // 此时当作失败回调
+        if (failureBlock) {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                NSError *error = [[NSError alloc] initWithDomain:@"SVGA Data is empty or lengh less than 4" code:-1 userInfo:nil];
+                failureBlock(error);
+            }];
+        }
         return;
     }
     if (![SVGAParser isZIPData:data]) {
