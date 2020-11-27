@@ -243,6 +243,24 @@ static NSOperationQueue *unzipQueue;
                     }];
                 }
             }
+            
+            // Tiaotiao：写入到本地
+            if (self.saveToLocal && inflateData != nil) {
+                NSString *cacheDir = [self cacheDirectory:cacheKey];
+                if (!cacheDir) {
+                    return;
+                }
+                
+                if (![[NSFileManager defaultManager] fileExistsAtPath:cacheDir]) {
+                    [[NSFileManager defaultManager] createDirectoryAtPath:cacheDir withIntermediateDirectories:NO attributes:nil error:nil];
+                }
+                
+                NSString *filePath = [cacheDir stringByAppendingString:@"/movie.binary"];
+                
+                BOOL writeSuc = [inflateData writeToFile:filePath atomically:YES];
+                
+                NSLog(@"Save svga data %@", writeSuc ? @"suc" : @"failed");
+            }
         }];
         return ;
     }

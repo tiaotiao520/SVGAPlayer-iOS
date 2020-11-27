@@ -12,6 +12,8 @@
 
 @interface SVGAParser : NSObject
 
+@property (nonatomic, assign) BOOL saveToLocal;
+
 @property (nonatomic, assign) BOOL enabledMemoryCache;
 
 - (void)parseWithURL:(nonnull NSURL *)URL
